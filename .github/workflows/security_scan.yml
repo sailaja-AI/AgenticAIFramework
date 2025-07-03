@@ -7,8 +7,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - run: pip install semgrep
-      - run: semgrep --config=p/owasp-top-ten src/
+
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      - name: Run Semgrep
+        run: |
+          mkdir outputs
+          semgrep --config=p/owasp-top-ten src/ --json > outputs/semgrep_report.json
+
+      - name: Upload Semgrep Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-report
+          path: outputs/semgrep_report.json
