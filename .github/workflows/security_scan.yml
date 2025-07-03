@@ -16,9 +16,10 @@ jobs:
         run: pip install semgrep
 
       - name: Run Semgrep
-        run: |
-          mkdir outputs
-          semgrep --config=p/owasp-top-ten src/ --json > outputs/semgrep_report.json
+        - run: |
+            mkdir -p outputs
+            semgrep --config=p/owasp-top-ten src/ --json > outputs/semgrep_report.json
+
 
       - name: Upload Semgrep Report Artifact
         uses: actions/upload-artifact@v4
